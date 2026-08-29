@@ -25,7 +25,7 @@ let horizontalDrift=0;
 let lastDriftTime=0;
 
 function setup(){
-  createCanvas(canvasW,canvasH);
+  createCanvas(windowWidth, windowHeight);
   imageMode(CORNER);
   loadFixedBackground();
   loadDefaultSVG();
