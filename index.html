@@ -9,31 +9,32 @@
 <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:#111;
+  color:#eee;
+  font-family:Arial,"Microsoft YaHei",sans-serif;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #111;
+body{
+  overflow:hidden;
 }
 
-#canvas-wrap {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+#canvas-wrap{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
 }
 
-canvas {
-  display: block;
-  width: 100vw;
-  height: 100vh;
+canvas{
+  display:block;
+  width:100vw;
+  height:100vh;
+  object-fit:cover;
 }
 </style>
 
