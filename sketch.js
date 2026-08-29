@@ -1,16 +1,3 @@
-// ============================================================
-// p5.js Web Editor ç - up-down bird
-//
-// é¡¹ç®æä»¶ç»æï¼
-//   sketch.js
-//   bird.svg
-//   background_updown_bird.webp
-//
-// è¯´æï¼ç¼è¾å¨é»è®¤ index.html æ²¡æ #canvas-wrap å®¹å¨ï¼
-// å æ­¤æ¹ä¸ºä½¿ç¨ p5 èªå¸¦ç mousePressed äºä»¶å¤çç¹å»è·³è·ï¼
-// ç»å¸ä¸åæè½½å°èªå®ä¹å®¹å¨ã
-// ============================================================
-
 let bgImg=null;
 let frames=[],frameSources=[],currentFrame=0,playing=true,lastFrameTime=0,lastMotionTime=0;
 let canvasW=900,canvasH=600;
@@ -25,8 +12,7 @@ let horizontalDrift=0;
 let lastDriftTime=0;
 
 function setup(){
-  createCanvas(windowWidth, windowHeight);
-  imageMode(CORNER);
+  const c=createCanvas(canvasW,canvasH); c.parent("canvas-wrap"); imageMode(CORNER);
   loadFixedBackground();
   loadDefaultSVG();
   centerBird();
@@ -64,11 +50,6 @@ function draw(){
   birdX=constrain(birdX,width/2-300,width/2+300);
   lastMotionTime=now;
 
-  // èªå¨è·èµ·ï¼é¢è§æ¶é¸ä¸ä¼æ²å°ç»é¢åºé¨æ¶å¤±
-  if(birdY > height*0.72){
-    birdY -= jumpDistance*2.2;
-  }
-
   if(frames.length){
     const frame=frames[currentFrame];
     if(frame && frame.width>0 && frame.height>0){
@@ -76,11 +57,6 @@ function draw(){
       drawTintedFrame(frame,birdX-birdW/2,birdY-birdH/2,birdW,birdH,alpha);
     }
   }
-}
-
-function mousePressed(){
-  birdY -= jumpDistance;
-  lastMotionTime=millis();
 }
 
 function drawTintedFrame(img,x,y,w,h,alpha=255){
@@ -165,10 +141,16 @@ function resetSettings(){
   loadDefaultSVG();
 }
 
+document.querySelector("#canvas-wrap").addEventListener("click",e=>{
+  if(e.target.tagName.toLowerCase()!=="canvas")return;
+  birdY -= jumpDistance;
+  lastMotionTime=millis();
+});
+
 async function loadDefaultSVG(){
   try{
     const r=await fetch("bird.svg");
-    if(!r.ok) throw new Error("bird.svg load failed");
+    if(!r.ok) throw new Error("bird.svg 加载失败");
     buildFramesFromSVG(await r.text());
   }catch(e){
     sourceSvgName="bird.svg";
@@ -251,3 +233,7 @@ function renderFrames(){
     });
   });
 }
+
+function hexToR(c){return parseInt(c.substring(1,3),16)}
+function hexToG(c){return parseInt(c.substring(3,5),16)}
+function hexToB(c){return parseInt(c.substring(5,7),16)}
